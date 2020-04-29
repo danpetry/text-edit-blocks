@@ -1,9 +1,7 @@
 INTRODUCTION
 ------------
 
-This program is written to the requirements of Task 3: Modular Madness.
-
-It takes command line input and allows the user to create a chain of string
+This program takes command line input and allows the user to create a chain of string
 processing modules, and then process a string through it.
 
 The processing modules inherit from a Module base class, and a Chain class
@@ -66,3 +64,20 @@ https://docs.microsoft.com/en-us/cpp/ide/cmake-tools-for-visual-cpp?view=vs-2017
 In previous versions, VS, NMake and Borland build and project files can be
 generated using the CMake GUI. See https://cmake.org/runningcmake/ for further
 details.
+
+
+FURTHER WORK
+------------
+
+This is based on a vector of module pointers. The vector is run through, and
+the outputs for each module are generated in turn and consumed by the next
+module. Each module contains a pointer to its input modules, which allows it
+to get their outputs.
+
+These modules are created in a factory function but never deleted, which leaks
+memory.
+
+A better implementation might be a linked list of smart pointers to modules.
+The linked list could represent the topology of the chain. The use of smart
+pointers could ensure that the modules are deallocated at the end of the
+program.
