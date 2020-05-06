@@ -69,7 +69,8 @@ details.
 FURTHER WORK
 ------------
 
-This is based on a vector of module pointers. The vector is run through, and
+This is based on a vector of module pointers. The pointers are simple C style
+pointers. The vector is run through, and
 the outputs for each module are generated in turn and consumed by the next
 module. Each module contains a pointer to its input modules, which allows it
 to get their outputs.
@@ -77,7 +78,10 @@ to get their outputs.
 These modules are created in a factory function but never deleted, which leaks
 memory.
 
-A better implementation might be a linked list of smart pointers to modules.
-The linked list could represent the topology of the chain. The use of smart
-pointers could ensure that the modules are deallocated at the end of the
-program.
+Improvements might be:
+  - Use std::unique_ptr's to point to the modules, so they automatically get
+    deleted at the end of the program
+  - Have a vector of input connections in each module. Each connection is
+    represented by an index of an input module. Since you can access each
+    module by index (because they're stored in a vector), getting each input is
+    an O(1) operation.
